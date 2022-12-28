@@ -1,8 +1,10 @@
+import django_filters.rest_framework
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.views import generic
+from rest_framework.permissions import IsAuthenticated
 
 from .models import *
 from django.http import Http404
@@ -14,6 +16,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         # return the latest 5 questions
+
         return Question.objects.filter(
             pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
