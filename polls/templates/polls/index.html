@@ -2,11 +2,15 @@
 
 {% block content %}
 {% if latest_question_list %}
-<ul>
     {% for q in latest_question_list %}
-    <li><a href="{% url 'polls:details' q.id %}">{{q.question_text}}</a></li>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ question.question_text }}</h5>
+                <a href="{% url 'polls:details' q.id %}" class="card-link">{{q.question_text}}</a>
+            </div>
+        </div>
+<hr>
     {% endfor %}
-</ul>
 {% else %}
 <p>No polls are available. </p>
 {% endif %}

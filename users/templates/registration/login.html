@@ -1,0 +1,13 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<h1> Login </h1>
+<hr>
+{% if form.errors %}
+<p> {{ form.errors.error }}</p>
+{% endif %}
+<form action="{% url 'users:login' %}" method="post">
+{{ form }}
+    {% csrf_token %}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
