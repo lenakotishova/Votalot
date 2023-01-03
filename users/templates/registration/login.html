@@ -10,4 +10,5 @@
     {% csrf_token %}
     <button type="submit">Submit</button>
 </form>
+    <a href="{% url 'users:password_reset' %}">Forgot your password?</a>
 {% endblock %}
