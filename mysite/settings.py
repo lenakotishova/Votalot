@@ -37,7 +37,7 @@ AUTH_USER_MODEL = 'users.User'
 # Application definition
 
 INSTALLED_APPS = [
-    'users.apps.UsersConfig',
+    'users',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',

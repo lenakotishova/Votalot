@@ -1,13 +1,10 @@
-import django_filters.rest_framework
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from django.urls import reverse
-from django.views import generic, View
-from rest_framework.permissions import IsAuthenticated
+from django.views import generic
+
 
 from .models import *
-from django.http import Http404
+from .forms import *
 
 
 class IndexView(generic.ListView):
@@ -16,7 +13,6 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         # return the latest 5 questions
-
         return Question.objects.filter(
             pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
@@ -44,3 +40,21 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def create_polls_form_view(request):
+    error = ''
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:index')
+        else:
+            error = 'Форма заполнена неверно'
+
+    form = QuestionForm()
+    data = {
+        'form': form,
+        'error': error,
+    }
+    return render(request, 'polls/create_poll.html', data)
