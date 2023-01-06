@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django import forms
 from django.forms import ModelForm, TextInput, DateTimeInput
-from rest_framework.exceptions import ValidationError
 
 from . import models
 from .models import Question, Choice
@@ -16,6 +15,7 @@ class QuestionForm(ModelForm):
             'question_text': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'question',
+                'maxlength': 25,
             }),
             'pub_date': DateTimeInput(attrs={
                 'type': 'datetime-local',
@@ -30,7 +30,13 @@ class QuestionForm(ModelForm):
         #         raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
         #
 
-class PollsChoiceForm(forms.ModelForm):
+
+class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
         fields = ['choice_text']
+        widgets = {
+            'choice_text': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'choice',
+            })}

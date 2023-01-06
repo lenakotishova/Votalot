@@ -1,7 +1,9 @@
+from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
-
+from django.forms import formset_factory
+from django.core.exceptions import ValidationError
 
 from .models import *
 from .forms import *
@@ -43,18 +45,31 @@ def vote(request, question_id):
 
 
 def create_polls_form_view(request):
-    error = ''
+    choices_formset = modelformset_factory(Choice, form=ChoiceForm, fields=('choice_text',), extra=10)
+
     if request.method == "POST":
         form = QuestionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('polls:index')
+        choice_form = choices_formset(request.POST, request.FILES)
+        if form.is_valid() and choice_form.is_valid():
+            question = form.save()
+            for ch_form in choice_form:
+                choice = ch_form.save(commit=False)
+                choice.question = question
+                choice.save()
+            return redirect('polls:details', pk=question.pk)
         else:
-            error = 'Форма заполнена неверно'
+            return render(request, 'polls/create_poll.html', {'form': form,
+                                                              'choice_form': choice_form, })
+    else:
+        form = QuestionForm()
+        choice_form = choices_formset(queryset=Choice.objects.none(),)
 
-    form = QuestionForm()
-    data = {
-        'form': form,
-        'error': error,
-    }
-    return render(request, 'polls/create_poll.html', data)
+        # choice_form = choices_formset(queryset=Choice.objects.none(), )
+
+        context = {
+            'form': form,
+            'choice_form': choice_form,
+        }
+
+        return render(request, 'polls/create_poll.html', {'form': form,
+                                                          'choice_form': choice_form, })

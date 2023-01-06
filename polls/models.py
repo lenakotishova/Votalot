@@ -13,7 +13,7 @@ class Question(models.Model):
         on_delete=models.CASCADE,
         default=1,
     )
-    question_text = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=40)
     pub_date = models.DateTimeField('date to publish')
     created_date = models.DateTimeField('date created', default=timezone.now)
 
@@ -29,7 +29,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField(max_length=40)
     votes = models.IntegerField(default=0)
 
     def __str__(self):
