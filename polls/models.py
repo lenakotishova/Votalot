@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User, AbstractUser
 from django.conf import settings
+from datetime import datetime
 
 
 class Question(models.Model):
@@ -14,7 +15,7 @@ class Question(models.Model):
         null=True
     )
     question_text = models.CharField(max_length=40)
-    pub_date = models.DateTimeField('date to publish', blank=True, null=True)
+    pub_date = models.DateTimeField('date to publish', default=timezone.now)
     created_date = models.DateTimeField('date created', default=timezone.now)
 
     def __str__(self):

@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote, name='vote'),
     # path('<int:pk>/edit/', views.edit_question_view, name='edit'),
     path('create/', views.create_polls_form_view, name='create'),
+    # path('create/', views.CreatePollView.as_view(template_name='polls/create_poll.html'), name='create'),
 
 ]

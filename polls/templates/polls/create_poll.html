@@ -5,11 +5,33 @@
 <h2>Create Post</h2>
   <hr>
   <div class="form-group">
+
     <form method="POST">
       {% csrf_token %}
-      <div class="form-group">
-          {{ form.as_p}}
-          {{ choice_form }}
+      <div class="form-group" enctype="multipart/form-data" id="poll-form">
+      <div class="card">
+          {% for field in form %}
+              <div class="form-group card-body">
+                <label>{{field.label}}</label>
+                {% for f in form %}
+                    {% if field.field.required %}
+                        <span style="color: red;" class="required">*</span>
+                        {{ f }}
+                        {{ choice_form }}
+                    {% endif %}
+                {% endfor %}
+
+          {% endfor %}
+          </div>
+      </div>
+      </div>
+
+
+
+
+              </div>
+
+
       </div>
 
       <button type="submit" class="btn btn-primary">Create</button>
