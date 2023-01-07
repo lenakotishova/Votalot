@@ -10,17 +10,17 @@ from .models import Question, Choice
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
-        fields = ['question_text', 'pub_date']
+        fields = ['question_text']
         widgets = {
             'question_text': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'question',
                 'maxlength': 25,
             }),
-            'pub_date': DateTimeInput(attrs={
-                'type': 'datetime-local',
-                'class': 'form-control',
-                'placeholder': 'date'}),
+            # 'pub_date': DateTimeInput(attrs={
+            #     'type': 'datetime-local',
+            #     'class': 'form-control',
+            #     'placeholder': 'date'}),
         }
 
         # def check_date(self):

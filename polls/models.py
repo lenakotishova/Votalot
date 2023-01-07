@@ -11,14 +11,18 @@ class Question(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        default=1,
+        null=True
     )
     question_text = models.CharField(max_length=40)
-    pub_date = models.DateTimeField('date to publish')
+    pub_date = models.DateTimeField('date to publish', blank=True, null=True)
     created_date = models.DateTimeField('date created', default=timezone.now)
 
     def __str__(self):
         return self.question_text
+
+    def publish(self):
+        self.pub_date = timezone.now()
+        self.save()
 
     def was_published_recently(self):
         return timezone.now() - datetime.timedelta(days=1) <= self.pub_date <= timezone.now()

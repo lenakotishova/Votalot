@@ -51,6 +51,8 @@ def create_polls_form_view(request):
         form = QuestionForm(request.POST)
         choice_form = choices_formset(request.POST, request.FILES)
         if form.is_valid() and choice_form.is_valid():
+            form.author = request.user
+
             question = form.save()
             for ch_form in choice_form:
                 choice = ch_form.save(commit=False)
@@ -63,13 +65,6 @@ def create_polls_form_view(request):
     else:
         form = QuestionForm()
         choice_form = choices_formset(queryset=Choice.objects.none(),)
-
-        # choice_form = choices_formset(queryset=Choice.objects.none(), )
-
-        context = {
-            'form': form,
-            'choice_form': choice_form,
-        }
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
