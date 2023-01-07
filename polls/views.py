@@ -48,7 +48,9 @@ def vote(request, question_id):
 
 
 def create_polls_form_view(request):
-    choices_formset = modelformset_factory(Choice, form=ChoiceForm, fields=('choice_text',), extra=10, min_num=4)
+    choices_formset = modelformset_factory(Choice, form=ChoiceForm, fields=('choice_text',), extra=7,
+                                           min_num=3,
+                                           validate_min=True)
 
     if request.method == "POST":
         form = QuestionForm(request.POST)
@@ -57,7 +59,7 @@ def create_polls_form_view(request):
             form.author = request.user
             question = form.save()
             for ch_form in choice_form:
-                if ch_form.is_valid and not ch_form.empty_permitted:
+                if ch_form.is_valid and ch_form.cleaned_data:
                     choice = ch_form.save(commit=False)
                     choice.question = question
                     choice.save()
@@ -71,6 +73,7 @@ def create_polls_form_view(request):
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
+
 # class QuestionInline():
 #     form_class = QuestionForm
 #     model = Question

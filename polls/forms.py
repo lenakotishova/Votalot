@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django import forms
-from django.forms import ModelForm, TextInput, DateTimeInput
+from django.forms import ModelForm, TextInput, DateTimeInput, HiddenInput
 from django.forms.models import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
 
@@ -14,16 +14,13 @@ class QuestionForm(ModelForm):
     class Meta:
         model = Question
         fields = ['question_text']
+        # exclude = ['author']
+
         widgets = {
             'question_text': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'question',
                 'maxlength': 25,
             }),
-            # 'pub_date': DateTimeInput(attrs={
-            #     'type': 'datetime-local',
-            #     'class': 'form-control',
-            #     'placeholder': 'date'}),
         }
 
         # def check_date(self):
@@ -38,10 +35,13 @@ class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
         fields = ['choice_text']
+        labels = {
+            'choice_text': 'choice',
+        }
         widgets = {
             'choice_text': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'choice',
+
             })}
 
 
