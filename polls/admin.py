@@ -11,9 +11,10 @@ class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Author', {'fields': ['author']}),
     ]
     inlines = [ChoiceInline]
-    list_display = ('question_text', 'pub_date', 'was_published_recently')
+    list_display = ('question_text', 'pub_date', 'was_published_recently', 'author_id')
 
 
 admin.site.register(Question, QuestionAdmin)
