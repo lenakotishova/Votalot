@@ -19,7 +19,7 @@ class Question(models.Model):
     created_date = models.DateTimeField('date created', default=timezone.now)
 
     def __str__(self):
-        return self.question_text
+        return self.question_text + ' | ' + self.author
 
     def publish(self):
         self.pub_date = timezone.now()

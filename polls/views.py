@@ -56,8 +56,9 @@ def create_polls_form_view(request):
         form = QuestionForm(request.POST)
         choice_form = choices_formset(request.POST, request.FILES)
         if form.is_valid() and choice_form.is_valid():
-            form.author = request.user
-            question = form.save()
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
             for ch_form in choice_form:
                 if ch_form.is_valid and ch_form.cleaned_data:
                     choice = ch_form.save(commit=False)
@@ -74,6 +75,8 @@ def create_polls_form_view(request):
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
 
+    def get_author(request, self):
+        self.author = request.user
 # class QuestionInline():
 #     form_class = QuestionForm
 #     model = Question
