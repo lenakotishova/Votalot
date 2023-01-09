@@ -1,0 +1,36 @@
+{% extends "polls/base.html" %}
+{% block title %}Edit Poll {% endblock %}
+
+{% block content %}
+<div class="container">
+<h2>Edit Post</h2>
+  <hr>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+         <ul class="list-group">
+        {% for choice in choice_form %}
+                 <li class="list-group-item list-group-item-info">
+                     <label>{{ forloop.counter }} {{ choice.label }}</label>
+                     {{ choice.choice_text }}
+</li>
+        {% endfor %}
+             </ul>
+
+
+            <div class="form-group" enctype="multipart/form-data" id="poll-form">
+                <div class="card">
+                        <div class="form-group card-body">
+                            {{ form }}
+                            {% for field in form %}
+                            <label>{{ field.label }}</label>
+                             {% endfor %}
+                                {{ choice_form }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -48,13 +48,9 @@ def vote(request, question_id):
 
 
 def create_polls_form_view(request):
-    choices_formset = modelformset_factory(Choice, form=ChoiceForm, fields=('choice_text',), extra=7,
-                                           min_num=3,
-                                           validate_min=True)
-
     if request.method == "POST":
         form = QuestionForm(request.POST)
-        choice_form = choices_formset(request.POST, request.FILES)
+        choice_form = PollFormSet(request.POST, request.FILES)
         if form.is_valid() and choice_form.is_valid():
             question = form.save(commit=False)
             question.author = request.user
@@ -70,13 +66,23 @@ def create_polls_form_view(request):
                                                               'choice_form': choice_form, })
     else:
         form = QuestionForm()
-        choice_form = choices_formset(queryset=Choice.objects.none(),)
+        choice_form = PollFormSet(queryset=Choice.objects.none(),)
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
 
-    def get_author(request, self):
-        self.author = request.user
+
+def edit_poll_view(request, pk):
+    question = Question.objects.get(id=pk)
+    form = QuestionForm(instance=question)
+    choice_form = PollFormSet(instance=question)
+    return render(
+        request,
+        'polls/edit_poll.html',
+        {'form': form,
+         'choice_form': choice_form, })
+
+
 # class QuestionInline():
 #     form_class = QuestionForm
 #     model = Question

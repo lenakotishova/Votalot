@@ -5,7 +5,6 @@ from django.forms import ModelForm, TextInput, DateTimeInput, HiddenInput
 from django.forms.models import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
 
-
 from . import models
 from .models import Question, Choice
 
@@ -57,4 +56,9 @@ class ChoiceForm(forms.ModelForm):
 #         )
 #
 
-PollFormSet = inlineformset_factory(Question, Choice, form=ChoiceForm)
+PollFormSet = inlineformset_factory(Question, Choice, form=ChoiceForm, fields=('choice_text',),
+                                    min_num=2,
+                                    extra=8,
+                                    max_num=10,
+                                    validate_min=True,
+                                    validate_max=True)
