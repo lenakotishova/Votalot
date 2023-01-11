@@ -1,6 +1,6 @@
 from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
@@ -66,7 +66,7 @@ def create_polls_form_view(request):
                                                               'choice_form': choice_form, })
     else:
         form = QuestionForm()
-        choice_form = PollFormSet(queryset=Choice.objects.none(),)
+        choice_form = PollFormSet(queryset=Choice.objects.none(), )
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
@@ -74,14 +74,64 @@ def create_polls_form_view(request):
 
 def edit_poll_view(request, pk):
     question = Question.objects.get(id=pk)
-    form = QuestionForm(instance=question)
-    choice_form = PollFormSet(instance=question)
-    return render(
-        request,
-        'polls/edit_poll.html',
-        {'form': form,
-         'choice_form': choice_form, })
+    formset = PollFormSet(instance=question)
+    if request.method == 'POST':
+        formset = PollFormSet(request.POST, instance=question)
+        if formset.is_valid():
+            listing_instance = formset.save(commit=False)
+            for choice_value in listing_instance:
+                choice_value.save()
+            return redirect('polls:details', pk=question.pk)
+        return render(request, 'polls/edit_poll.html', {
+                        'formset': formset, })
+    else:
 
+        formset = PollFormSet(instance=question)
+        return render(request, 'polls/edit_poll.html', {
+                'formset': formset, })
+
+    context = {
+        'formset': formset,
+    }
+    return render(request, 'polls/edit_poll.html', context)
+
+    # if choice_forms.is_valid():
+    #     instance = choice_forms.save(commit=False)
+    #     instance.user = request.user
+    #     instance.save()
+    # return render(request, 'polls/edit_poll.html', {'choice_forms': choice_forms})
+
+    # form = QuestionForm(request.POST, instance=question)
+    # if form.is_valid() and choice_form.is_valid():
+    #     form.save()
+    #     if choice_form.is_valid():
+    #         choice_form.save()
+    #         return render(request, 'polls/edit_poll.html', {'choice_form': choice_form})
+    #     else:
+    #         return JsonResponse(choice_form.errors, safe=False)
+    #         # return redirect('polls:edit', pk=question.pk)
+    #
+    # choice_form = PollFormSet(instance=question)
+    # return render(request, 'polls/edit_poll.html', {'choice_form': choice_form})
+
+    # choice_form = PollFormSet(request.POST, instance=question)
+    # if form.is_valid() and choice_form.is_valid():
+    #     form_quest = form.save(commit=False)
+    #     # question.author = request.user
+    #     question.save()
+    #     for ch_form in choice_form:
+    #         if ch_form.is_valid and ch_form.cleaned_data:
+    #             choice = ch_form.save(commit=False)
+    #             choice.save()
+    #         return redirect('polls:details', pk=form_quest.pk)
+    #     else:
+    #         return redirect('polls:edit', pk=form_quest.pk)
+    # else:
+    #     form = QuestionForm(instance=question)
+    #     choice_form = PollFormSet(instance=question)
+    #
+    #     return render(request, 'polls/edit_poll.html', {'form': form,
+    #                                                     'choice_form': choice_form, })
 
 # class QuestionInline():
 #     form_class = QuestionForm
