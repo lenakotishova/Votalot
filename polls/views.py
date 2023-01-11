@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
@@ -11,7 +14,7 @@ from .models import *
 from .forms import *
 
 
-class IndexView(generic.ListView):
+class IndexView(generic.ListView, LoginRequiredMixin):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
 
@@ -21,17 +24,34 @@ class IndexView(generic.ListView):
             pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
-class DetailView(generic.DetailView):
+class DetailView(generic.DetailView, LoginRequiredMixin):
     model = Question
-
     template_name = 'polls/detail.html'
 
+    # def get_queryset(self):
+    #     """ Exclude any unpublished questions. """
+    #     return get_object_or_404(Question,
+    #                              pk=self.kwargs['pk'],
+    #                              pub_date__lte=timezone.now())
 
-class ResultView(generic.DetailView):
+
+class ResultView(generic.DetailView, LoginRequiredMixin):
     model = Question
     template_name = 'polls/results.html'
 
+@login_required
+def result_data(request, pk):
+    votedata = []
 
+    question = Question.objects.get(id=pk)
+    votes = question.choice_set.all()
+
+    for i in votes:
+        votedata.append({i.choice_text: i.votes})
+
+    return JsonResponse(votedata, safe=False)
+
+@login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -46,7 +66,7 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-
+@login_required
 def create_polls_form_view(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
@@ -71,7 +91,7 @@ def create_polls_form_view(request):
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
 
-
+@login_required
 def edit_poll_view(request, pk):
     question = Question.objects.get(id=pk)
     formset = PollFormSet(instance=question)
@@ -97,6 +117,7 @@ def edit_poll_view(request, pk):
         })
 
 
+@login_required
 def delete_poll_view(request, pk):
     question = Question.objects.get(id=pk)
     if request.method == "POST":
