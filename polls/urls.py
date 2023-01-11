@@ -13,4 +13,6 @@ urlpatterns = [
 
     path('create/', views.create_polls_form_view, name='create'),
 
+    path('<int:pk>/delete/', views.delete_poll_view, name='delete'),
+
 ]

@@ -64,6 +64,7 @@ PollFormSet = inlineformset_factory(Question,
                                     min_num=2,
                                     extra=8,
                                     max_num=10,
+                                    can_delete=True,
                                     validate_min=True,
                                     validate_max=True,
                                     )
