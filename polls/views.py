@@ -75,25 +75,32 @@ def create_polls_form_view(request):
 def edit_poll_view(request, pk):
     question = Question.objects.get(id=pk)
     formset = PollFormSet(instance=question)
+    question_form = QuestionForm(instance=question)
     if request.method == 'POST':
         formset = PollFormSet(request.POST, instance=question)
-        if formset.is_valid():
+        question_form = QuestionForm(request.POST, instance=question)
+
+        if formset.is_valid() and question_form.is_valid():
             listing_instance = formset.save(commit=False)
+            question_text = question_form.save(commit=False)
+            question_text.save()
             for choice_value in listing_instance:
                 choice_value.save()
             return redirect('polls:details', pk=question.pk)
-        return render(request, 'polls/edit_poll.html', {
-                        'formset': formset, })
+        return render(request, 'polls/edit_poll.html', {'question_form': question_form, 'formset': formset})
     else:
 
         formset = PollFormSet(instance=question)
         return render(request, 'polls/edit_poll.html', {
-                'formset': formset, })
-
-    context = {
-        'formset': formset,
-    }
-    return render(request, 'polls/edit_poll.html', context)
+            'formset': formset,
+            'question_form': question_form,
+        })
+    #
+    # context = {
+    #     'formset': formset,
+    #     'question_form': question_form
+    # }
+    # return render(request, 'polls/edit_poll.html', context)
 
     # if choice_forms.is_valid():
     #     instance = choice_forms.save(commit=False)
