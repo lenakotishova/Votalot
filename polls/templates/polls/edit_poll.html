@@ -1,0 +1,35 @@
+{% extends "polls/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Poll {% endblock %}
+
+{% block content %}
+<div class="container">
+<h2>Edit Post</h2>
+  <hr>
+    <div class="form-group">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for field in question_form %}
+                <label>{{field.label}}</label>
+                {{ field }}
+            {% endfor %}
+            <ul class="list-group">
+
+                {{ formset.management_form }}
+                {% for choice in formset %}
+
+                <label>{{ forloop.counter }}</label>
+                    <li class="list-group-item list-group-item-info">
+                        {{ choice }}
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <button type="submit" class="btn btn-primary">Edit</button>
+{#            <input type="reset" class="btn btn-primary" name="Reset">#}
+
+        </form>
+    </div>
+</div>
+{% endblock %}

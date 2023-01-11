@@ -14,7 +14,11 @@
 
     {% endfor %}
 </fieldset>
-<input type="submit" value="Vote">
+<input class='btn btn-light action-button' type="submit" value="Vote">
+<a class="btn btn-light action-button" role="button" href="{% url 'polls:edit' question.id %}">Edit</a>
+<a class="btn btn-light action-button" role="button" href="{% url 'polls:delete' question.id %}">Delete</a>
+
+
 </form>
 <p>Asked by {{ question.author }}</p>
 {% endblock %}
