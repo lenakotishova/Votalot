@@ -1,11 +1,11 @@
 from django.db import models
 import datetime
+from datetime import timedelta
 
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User, AbstractUser
 from django.conf import settings
-from datetime import datetime
 
 
 class Question(models.Model):
@@ -19,7 +19,7 @@ class Question(models.Model):
     created_date = models.DateTimeField('date created', default=timezone.now)
 
     def __str__(self):
-        return self.question_text + ' | ' + self.author
+        return self.question_text
 
     def publish(self):
         self.pub_date = timezone.now()

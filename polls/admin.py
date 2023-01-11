@@ -14,7 +14,7 @@ class QuestionAdmin(admin.ModelAdmin):
         ('Author', {'fields': ['author']}),
     ]
     inlines = [ChoiceInline]
-    list_display = ('question_text', 'pub_date', 'was_published_recently', 'author_id')
+    list_display = ('question_text', 'created_date', 'pub_date', 'was_published_recently', 'author_id')
 
 
 admin.site.register(Question, QuestionAdmin)
