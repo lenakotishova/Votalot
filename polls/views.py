@@ -39,6 +39,7 @@ class ResultView(generic.DetailView, LoginRequiredMixin):
     model = Question
     template_name = 'polls/results.html'
 
+
 @login_required
 def result_data(request, pk):
     votedata = []
@@ -50,6 +51,7 @@ def result_data(request, pk):
         votedata.append({i.choice_text: i.votes})
 
     return JsonResponse(votedata, safe=False)
+
 
 @login_required
 def vote(request, question_id):
@@ -65,6 +67,7 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
 
 @login_required
 def create_polls_form_view(request):
