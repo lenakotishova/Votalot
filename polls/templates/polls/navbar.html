@@ -1,0 +1,28 @@
+<header>
+        <nav>
+            <li class="nav-bar">
+                <ul class="nav-list-group">
+                    <li class="nav-list-item">
+                        <div class="logo">
+                            <a href="{% url 'polls:index' %}">Votalot</a>
+                        </div>
+                    </li>
+                    <li class="nav-list-item"><a href="{% url 'polls:create' %}">Create Poll</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-list-item">
+                                <div class="dropdown">
+                                    <span><a href="#">{{ user }}</a></span>
+                                    <div class="dropdown-content">
+                                        <p><a class="dropdown-link" href="{% url 'users:logout' %}">Log Out</a></p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <li class="nav-list-item">
+                                <span class="bounded-buttons"><a href="{% url 'users:login' %}">Login</a></span>
+                                <span class="bounded-buttons"><a href="{% url 'users:register' %}">Sign Up</a></span>
+                            </li>
+                        {% endif%}
+                </ul>
+            </div>
+        </nav>
+</header>

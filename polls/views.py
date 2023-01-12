@@ -17,11 +17,12 @@ from .forms import *
 class IndexView(generic.ListView, LoginRequiredMixin):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
+    paginate_by = 5
 
     def get_queryset(self):
         # return the latest 5 questions
         return Question.objects.filter(
-            pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+            pub_date__lte=timezone.now()).order_by('-pub_date')
 
 
 class DetailView(generic.DetailView, LoginRequiredMixin):

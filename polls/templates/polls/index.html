@@ -1,18 +1,32 @@
 {% extends "polls/base.html" %}
 
 {% block content %}
+    <div class="section-title">
+        <h2>Latest Approved Polls:</h2>
+    </div>
+    <div class="poll-cards-container">
+        {% if latest_question_list %}
+            {% for q in latest_question_list %}
+                <div class="question-card">
+                    <div class="question-card-body">
+                        <h5 class="card-title">{{q.question_text}}</h5>
+                        <a href="{% url 'polls:details' q.id %}" class="card-link">View</a>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No polls are available. </p>
+        {% endif %}
+    <nav class="list-pages">
+        <ul>
+            {% for p in paginator.page_range %}
+                <li class="page-num">
+                    <a href="?page={{ p }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    </div>
 
-{% if latest_question_list %}
-    {% for q in latest_question_list %}
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{ question.question_text }}</h5>
-                <a href="{% url 'polls:details' q.id %}" class="card-link">{{q.question_text}}</a>
-            </div>
-        </div>
-<hr>
-    {% endfor %}
-{% else %}
-<p>No polls are available. </p>
-{% endif %}
 {% endblock %}

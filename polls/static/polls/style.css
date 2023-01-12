@@ -6,14 +6,15 @@
 }
 
 header {
-    height: 80px;
+    height: 60px;
     /*width: auto;*/
-    padding: 10px;
+    /*padding: 10px;*/
+    margin-bottom: 10px;
     font-size: 18px;
 }
 
 .nav-bar {
-    color: white;
+    color: #FEFFFF;
 }
 
 ul .nav-list-item a:link {
@@ -22,7 +23,7 @@ ul .nav-list-item a:link {
     padding: 8px 19px;
     border: 1px solid #225e5c;
     background-color: #2B7A78;
-    color: white;
+    color: #FEFFFF;
     margin: 0 3px;
     font-family: 'Rajdhani', serif;
 }
@@ -94,3 +95,98 @@ span .bounded-buttons a {
     padding: 0;
     border: 0;
 }
+
+.section-title {
+    display: flex;
+    width: 40%;
+    margin: auto;
+    padding-bottom: 5px;
+}
+
+.section-title h2 {
+    font-size: 28px;
+    font-family: 'Rajdhani', serif;
+    margin: 5px 10px;
+    color: #17252A;
+}
+
+.poll-cards-container {
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    margin: auto;
+}
+
+.question-card {
+    font-family: 'Tajawal', serif;
+    border: 2px solid #225e5c;
+    width: 100%;
+    margin: 8px;
+    height: 75px;
+    padding: 9px;
+}
+
+.question-card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.question-card h5 {
+    outline: none;
+    text-decoration: none;
+    font-size: 25px;
+    color: #2B7A78;
+    display: flex;
+    align-self: flex-start;
+}
+
+.question-card .card-link {
+    display: flex;
+    align-self: flex-end;
+    width: 38px;
+    outline: none;
+    text-decoration: none;
+    padding: 8px 19px;
+    border: 1px solid #225e5c;
+    background-color: #2B7A78;
+    color: #FEFFFF;
+    font-family: 'Rajdhani', serif;
+}
+
+.list-pages {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-pages ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.page-num a {
+    font-size: 30px;
+    display: flex;
+    outline: none;
+    text-decoration: none;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    transition: background-color .3s;
+    /*border: 1px solid #225e5c;*/
+    color: #225e5c;
+    margin: 15px 15px;
+}
+
+.page-num a:active {
+    border: 5px solid #225e5c;
+    color: #225e5c;
+    margin: 0 15px;
+}
+.page-num a:hover:not(.active){
+    background-color: #2B7A78;
+    color: #FEFFFF;
+}
+
+/*Login Page*/
