@@ -28,6 +28,9 @@ DEBUG = True
 LOGIN_REDIRECT_URL = '/polls/'
 LOGOUT_REDIRECT_URL = '/polls/'
 
+LOGIN_URL = '/polls/'
+LOGOUT_URL = '/polls/'
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
