@@ -10,6 +10,7 @@ app_name = 'users'
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', Register.as_view(), name='register'),
+    path('login/', views.login_view, name='login'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(), name='reset_password'),
     path('password_reset/done/',

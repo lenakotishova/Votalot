@@ -8,6 +8,9 @@
 
     <title>Votalot</title>
 
+{#    Box Icons CDN#}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +22,32 @@
 
 <body>
 <div class="container">
-{% include 'polls/navbar.html' %}
-
+<header>
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <a href="{% url 'polls:index' %}">Votalot</a>
+            </div>
+            <div class="nav-links">
+                <ul class="links">
+                    <li><a href="{% url 'polls:create' %}">Create Poll</a></li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'users:login' %}">Login</a></li>
+                        <li><a href="{% url 'users:register' %}">Sign Up</a></li>
+                    {% else %}
+                        <li>
+                            <a href="#">{{ user }}</a>
+                            <i class='bx bxs-chevron-down arrow'></i>
+                        </li>
+                        <li><a href="{% url 'users:logout' %}">Logout</a></li>
+                    {% endif %}
+                </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
     {% block content %}
     {% endblock %}
 </div>

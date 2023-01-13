@@ -9,8 +9,8 @@
             {% for q in latest_question_list %}
                 <div class="question-card">
                     <div class="question-card-body">
-                        <h5 class="card-title">{{q.question_text}}</h5>
-                        <a href="{% url 'polls:details' q.id %}" class="card-link">View</a>
+                        <a class="card-title" href="{% url 'polls:details' q.id %}">{{q.question_text}}</a>
+                        <a class="card-link" href="{% url 'polls:details' q.id %}" >View</a>
                     </div>
                 </div>
                 <hr>

@@ -1,28 +1,71 @@
-<header>
-        <nav>
-            <li class="nav-bar">
-                <ul class="nav-list-group">
-                    <li class="nav-list-item">
-                        <div class="logo">
-                            <a href="{% url 'polls:index' %}">Votalot</a>
-                        </div>
-                    </li>
-                    <li class="nav-list-item"><a href="{% url 'polls:create' %}">Create Poll</a></li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-list-item">
-                                <div class="dropdown">
-                                    <span><a href="#">{{ user }}</a></span>
-                                    <div class="dropdown-content">
-                                        <p><a class="dropdown-link" href="{% url 'users:logout' %}">Log Out</a></p>
-                                </div>
-                            </div>
-                        {% else %}
-                            <li class="nav-list-item">
-                                <span class="bounded-buttons"><a href="{% url 'users:login' %}">Login</a></span>
-                                <span class="bounded-buttons"><a href="{% url 'users:register' %}">Sign Up</a></span>
-                            </li>
-                        {% endif%}
-                </ul>
-            </div>
-        </nav>
+
+{#        <nav>#}
+{#            <div class="nav-bar">#}
+{#                <div class="nav-bar logo">#}
+{#                    <a href="{% url 'polls:index' %}">Votalot</a>#}
+{#                </div>#}
+{#                <div class="nav-links">#}
+{#                    <ul class="links">#}
+{#                    <li>#}
+{#                        <form class="nav-list-group nav-list-item nav-list-button" action="{% url 'polls:create' %}">#}
+{#                            <input class="nav-list-button bounded-buttons" type="submit" value="Create Poll">#}
+{#                        </form>#}
+{#                    </li>#}
+{#                        {% if user.is_authenticated %}#}
+{#                            <li><span>{{ user }}</span>#}
+{#                                <i class='bx bxs-chevron-down'></i>#}
+{#                                <ul class="dropdown-menu">#}
+{#                                    <li class="nav-list-item dropdown-menu dropdown-sub-item">#}
+{#                                        <a class="dropdown-sub-item dropdown-sub-item link" href="{% url 'users:logout' %}">Log Out</a>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                        {% else %}#}
+{#                            <li>#}
+{#                                <form class="nav-list-item nav-list-button" action="{% url 'users:login' %}">#}
+{#                                    <input class="nav-list-item nav-list-button bounded-buttons" type="submit" value="Login">#}
+{#                                </form>#}
+{#                                <form class="av-list-item nav-list-button bounded-buttons" action="{% url 'users:register' %}">#}
+{#                                    <input class="nav-list-item nav-list-button bounded-buttons" type="submit" value="Sign Up">#}
+{#                                </form>#}
+{#                            </li>#}
+{#                        {% endif%}#}
+{#                </ul>#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <ul class="nav-bar nav-list-links">#}
+{#                    <li class="nav-list-group nav-list-item">#}
+{##}
+{#                    </li>#}
+{##}
+{#                    <li class="nav-bar nav-list-group nav-list-item">#}
+{#                        <form class="nav-list-group nav-list-item nav-list-button" action="{% url 'polls:create' %}">#}
+{#                            <input class="nav-list-item nav-list-button bounded-buttons" type="submit" value="Create Poll">#}
+{#                        </form>#}
+{#                    </li>#}
+{#                        {% if user.is_authenticated %}#}
+{#                            <li class="nav-bar nav-list-group nav-list-item">#}
+{#                                    <span>{{ user }}</span>#}
+{#                                    <i class='bx bxs-chevron-down'></i>#}
+{#                                    <ul class="nav-list-group nav-list-item dropdown-menu">#}
+{#                                        <li class="nav-list-item dropdown-menu dropdown-sub-item">#}
+{#                                            <a class="dropdown-sub-item dropdown-sub-item link" href="{% url 'users:logout' %}">Log Out</a>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                                    <div class="dropdown-content">#}
+{#                                        <p><a class="dropdown-link" href="{% url 'users:logout' %}">Log Out</a></p>#}
+{#                                </div>#}
+{#                        {% else %}#}
+{#                            <li class="nav-bar nav-list-group nav-list-item">#}
+{#                                <form class=" nav-list-item nav-list-button" action="{% url 'users:login' %}">#}
+{#                                    <input class="nav-list-item nav-list-button bounded-buttons" type="submit" value="Login">#}
+{#                                </form>#}
+{#                                <form class="av-list-item nav-list-button bounded-buttons" action="{% url 'users:register' %}">#}
+{#                                    <input class="nav-list-item nav-list-button bounded-buttons" type="submit" value="Sign Up">#}
+{#                                </form>#}
+{#                            </li>#}
+{#                        {% endif%}#}
+{#                </ul>#}
+{#                </div>#}
+{#            </div>#}
+{#        </nav>#}
 </header>

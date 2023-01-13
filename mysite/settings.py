@@ -30,6 +30,7 @@ LOGOUT_REDIRECT_URL = '/polls/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+LOGIN_URL = '/login/'
 
 ALLOWED_HOSTS = []
 
