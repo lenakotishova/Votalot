@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from datetime import timedelta
+from django.db.models import Sum
 
 from django.urls import reverse
 from django.utils import timezone
@@ -14,7 +15,7 @@ class Question(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
-    question_text = models.CharField(max_length=40)
+    question_text = models.CharField(max_length=100)
     pub_date = models.DateTimeField('date to publish', default=timezone.now)
     created_date = models.DateTimeField('date created', default=timezone.now)
 
@@ -30,6 +31,10 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         return reverse('polls:details', kwargs={'pk': self.pk})
+
+    @property
+    def total_votes(self):
+        return self.choice_set.aggregate(Sum('votes'))['votes__sum']
 
 
 class Choice(models.Model):

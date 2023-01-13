@@ -17,6 +17,7 @@ from .forms import *
 class IndexView(generic.ListView, LoginRequiredMixin):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
+    paginate_by = 5
 
     def get_queryset(self):
         # return the latest 5 questions
@@ -24,7 +25,7 @@ class IndexView(generic.ListView, LoginRequiredMixin):
             pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
-class DetailView(generic.DetailView, LoginRequiredMixin):
+class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
@@ -35,7 +36,8 @@ class DetailView(generic.DetailView, LoginRequiredMixin):
     #                              pub_date__lte=timezone.now())
 
 
-class ResultView(generic.DetailView, LoginRequiredMixin):
+class ResultView(LoginRequiredMixin, generic.DetailView):
+    login_url = 'users:login'
     model = Question
     template_name = 'polls/results.html'
 
@@ -51,22 +53,23 @@ def result_data(request, pk):
 
     return JsonResponse(votedata, safe=False)
 
-@login_required
+@login_required(login_url='users:login')
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except KeyError:
         return render(request, 'polls/detail.html',
-                      {'question': question,
-                       'error_message': "You didn't select a choice"
-                       })
+                          {'question': question,
+                           'error_message': "You didn't select a choice"
+                           })
     else:
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-@login_required
+
+@login_required(login_url='users:login')
 def create_polls_form_view(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)
@@ -91,7 +94,7 @@ def create_polls_form_view(request):
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
 
-@login_required
+@login_required(login_url='users:login')
 def edit_poll_view(request, pk):
     question = Question.objects.get(id=pk)
     formset = PollFormSet(instance=question)
@@ -117,7 +120,7 @@ def edit_poll_view(request, pk):
         })
 
 
-@login_required
+@login_required(login_url='users:login')
 def delete_poll_view(request, pk):
     question = Question.objects.get(id=pk)
     if request.method == "POST":
