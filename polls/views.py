@@ -2,22 +2,19 @@ from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import generic
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-from django.forms import formset_factory
-from django.core.exceptions import ValidationError
 
 from .models import *
 from .forms import *
 
 
 class IndexView(generic.ListView, LoginRequiredMixin):
+    paginate_by =2
+
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
-    paginate_by = 5
 
     def get_queryset(self):
         # return the latest 5 questions
@@ -29,17 +26,12 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
-    # def get_queryset(self):
-    #     """ Exclude any unpublished questions. """
-    #     return get_object_or_404(Question,
-    #                              pk=self.kwargs['pk'],
-    #                              pub_date__lte=timezone.now())
-
 
 class ResultView(LoginRequiredMixin, generic.DetailView):
     login_url = 'users:login'
     model = Question
     template_name = 'polls/results.html'
+
 
 @login_required
 def result_data(request, pk):
@@ -53,6 +45,7 @@ def result_data(request, pk):
 
     return JsonResponse(votedata, safe=False)
 
+
 @login_required(login_url='users:login')
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -60,9 +53,9 @@ def vote(request, question_id):
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except KeyError:
         return render(request, 'polls/detail.html',
-                          {'question': question,
-                           'error_message': "You didn't select a choice"
-                           })
+                      {'question': question,
+                       'error_message': "You didn't select a choice"
+                       })
     else:
         selected_choice.votes += 1
         selected_choice.save()
@@ -93,6 +86,7 @@ def create_polls_form_view(request):
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
+
 
 @login_required(login_url='users:login')
 def edit_poll_view(request, pk):

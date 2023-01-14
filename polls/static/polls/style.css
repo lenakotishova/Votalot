@@ -159,3 +159,41 @@
 .header-dark .hero .embed-responsive iframe {
   background-color:#666;
 }
+
+/*PAGINATION*/
+ /*pagination*/
+.list-pages {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-pages ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.page-num a {
+    font-size: 21px;
+    display: flex;
+    outline: none;
+    text-decoration: none;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    transition: background-color .3s;
+    /*border: 1px solid #225e5c;*/
+    color: #225e5c;
+    margin: 15px 15px;
+}
+
+.page-num a:active {
+    border: 5px solid #225e5c;
+    color: #225e5c;
+    margin: 0 15px;
+}
+.page-num a:hover:not(.active){
+    background-color: #2B7A78;
+    color: #FEFFFF;
+}
