@@ -64,5 +64,6 @@
         <hr>
         <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>
     {% endif %}
-</div>
+    {% include 'polls/add_comment.html' %}
+    </div>
 {% endblock %}

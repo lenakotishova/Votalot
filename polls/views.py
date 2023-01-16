@@ -1,6 +1,7 @@
 from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.urls import reverse_lazy
 from django.views import generic
 
 from django.contrib.auth.decorators import login_required
@@ -8,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView
 
 from .models import *
-from .forms import *
+from .forms import CommentForm, QuestionForm, ChoiceForm, PollFormSet
 
 
 class IndexView(generic.ListView, LoginRequiredMixin):
@@ -61,6 +62,23 @@ class ResultView(LoginRequiredMixin, generic.DetailView):
     login_url = 'users:login'
     model = Question
     template_name = 'polls/results.html'
+
+
+class AddCommentView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'polls/add_comment.html'
+    # fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.author_id = self.request.user.id
+        form.instance.question_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('polls:details', kwargs={'pk': self.object.question.pk})
+
+    # success_url = reverse_lazy('polls:index')
 
 
 @login_required
@@ -116,12 +134,6 @@ def create_polls_form_view(request):
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
-
-
-class AddCommentView(LoginRequiredMixin, CreateView):
-    model = Comment
-    template_name = 'polls/add_comment.html'
-    fields = '__all__'
 
 
 @login_required(login_url='users:login')

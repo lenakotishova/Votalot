@@ -63,3 +63,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.question.question_text, self.question.author)
+
+    def get_success_url(self):
+        return reverse('polls:details', kwargs={'pk': self.object.pk})
