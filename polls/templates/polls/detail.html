@@ -38,5 +38,10 @@
 
         </div>
         </form>
+    <form action="{% url 'polls:like_poll' question.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
+    </form>
+    {{ total_likes }}
 </div>
 {% endblock %}

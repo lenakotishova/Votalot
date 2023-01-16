@@ -1,7 +1,8 @@
 from django.db import models
 import datetime
 from datetime import timedelta
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.contrib.contenttypes.fields import GenericRelation
 
 from django.urls import reverse
 from django.utils import timezone
@@ -18,6 +19,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=100)
     pub_date = models.DateTimeField('date to publish', default=timezone.now)
     created_date = models.DateTimeField('date created', default=timezone.now)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='question_post')
 
     def __str__(self):
         return self.question_text
@@ -35,6 +37,13 @@ class Question(models.Model):
     @property
     def total_votes(self):
         return self.choice_set.aggregate(Sum('votes'))['votes__sum']
+
+    def total_likes(self):
+        return self.likes.count()
+
+    # @property
+    # def total_likes(self):
+    #     return self.likes.count()
 
 
 class Choice(models.Model):

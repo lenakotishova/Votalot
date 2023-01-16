@@ -26,6 +26,20 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
+    def get_context_data(self, *args, **kwargs):
+        cat_data = Choice.objects.all()
+        context = super(DetailView, self).get_context_data()
+        stuff = get_object_or_404(Question, id=(self.kwargs['pk']))
+        total_likes = stuff.total_likes()
+        context['total_likes'] = total_likes
+        return context
+
+
+def like_view(request, pk):
+    question = get_object_or_404(Question, id=request.POST.get('question_id'))
+    question.likes.add(request.user)
+    return HttpResponseRedirect(reverse('polls:details', args=(question.id,)))
+
 
 class ResultView(LoginRequiredMixin, generic.DetailView):
     login_url = 'users:login'
