@@ -32,12 +32,27 @@ class DetailView(generic.DetailView):
         stuff = get_object_or_404(Question, id=(self.kwargs['pk']))
         total_likes = stuff.total_likes()
         context['total_likes'] = total_likes
+        is_liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            is_liked = True
+        else:
+            is_liked = False
+        context['is_liked'] = is_liked
         return context
 
 
 def like_view(request, pk):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
-    question.likes.add(request.user)
+    is_liked = False
+
+    if question.likes.filter(id=request.user.id).exists():
+        question.likes.remove(request.user)
+        is_liked = False
+
+    else:
+        question.likes.add(request.user)
+        is_liked = True
+
     return HttpResponseRedirect(reverse('polls:details', args=(question.id,)))
 
 

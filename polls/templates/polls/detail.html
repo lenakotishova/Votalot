@@ -34,14 +34,22 @@
                 <a class="btn btn-light action-button" role="button" href="{% url 'polls:edit' question.id %}">Edit</a>
                 <a class="btn btn-light action-button" role="button" href="{% url 'polls:delete' question.id %}">Delete</a>
             {% endif %}
-            <p>{{ question.total_votes }}</p>
+            <p>voted by {{ question.total_votes }} users</p>
 
         </div>
         </form>
-    <form action="{% url 'polls:like_poll' question.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
-    </form>
-    {{ total_likes }}
+    {% if user.is_authenticated %}
+        <form action="{% url 'polls:like_poll' question.id %}" method="post">
+            {% csrf_token %}
+            {% if is_liked %}
+                <button type="submit" name="question_id" value="{{ question.id }}">Unlike</button>
+            {% else %}
+                <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
+            {% endif %}
+        </form>
+        {{ total_likes }} likes
+
+    {% endif %}
+
 </div>
 {% endblock %}
