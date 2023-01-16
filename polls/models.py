@@ -18,7 +18,7 @@ class Question(models.Model):
     )
     question_text = models.CharField(max_length=100)
     pub_date = models.DateTimeField('date to publish', default=timezone.now)
-    created_date = models.DateTimeField('date created', default=timezone.now)
+    created_date = models.DateTimeField('date created', auto_now_add=True)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='question_post')
 
     def __str__(self):
@@ -53,3 +53,13 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+
+class Comment(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment_body = models.TextField(max_length=255)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.question_text, self.author)
