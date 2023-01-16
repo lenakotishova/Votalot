@@ -46,10 +46,22 @@
             {% else %}
                 <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
             {% endif %}
+        - {{ total_likes }} likes
+
         </form>
-        {{ total_likes }} likes
 
     {% endif %}
 
+    {% if not question.comments.all %}
+        <p>No comments yet...<a href="#">You can be the first!</a></p>
+    {% else %}
+        <br>
+        {% for comment in question.comments.all %}
+            <hr>
+            <strong>{{ comment.author }} - {{ comment.date_added }}</strong>
+            <p>{{ comment.comment_body }}</p>
+        {% endfor %}
+        <hr>
+    {% endif %}
 </div>
 {% endblock %}

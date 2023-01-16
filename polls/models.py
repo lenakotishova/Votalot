@@ -57,9 +57,9 @@ class Choice(models.Model):
 
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment_body = models.TextField(max_length=255)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s - %s' % (self.question_text, self.author)
+        return '%s - %s' % (self.question.question_text, self.question.author)
