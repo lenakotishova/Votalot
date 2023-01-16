@@ -5,13 +5,14 @@ from django.views import generic
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 
 from .models import *
 from .forms import *
 
 
 class IndexView(generic.ListView, LoginRequiredMixin):
-    paginate_by =2
+    paginate_by = 2
 
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
@@ -19,7 +20,7 @@ class IndexView(generic.ListView, LoginRequiredMixin):
     def get_queryset(self):
         # return the latest 5 questions
         return Question.objects.filter(
-            pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+            pub_date__lte=timezone.now()).order_by('-pub_date')[:50]
 
 
 class DetailView(generic.DetailView):
@@ -115,6 +116,12 @@ def create_polls_form_view(request):
 
         return render(request, 'polls/create_poll.html', {'form': form,
                                                           'choice_form': choice_form, })
+
+
+class AddCommentView(LoginRequiredMixin, CreateView):
+    model = Comment
+    template_name = 'polls/add_comment.html'
+    fields = '__all__'
 
 
 @login_required(login_url='users:login')
