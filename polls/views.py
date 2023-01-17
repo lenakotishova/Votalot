@@ -6,7 +6,7 @@ from django.views import generic
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from .models import *
 from .forms import CommentForm, QuestionForm, ChoiceForm, PollFormSet
@@ -88,6 +88,15 @@ class EditCommentView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('polls:details', kwargs={'pk': self.object.question.pk})
+
+
+class DeleteCommentView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'polls/delete_comment.html'
+    # success_url = 'polls:index'
 
     def get_success_url(self):
         return reverse('polls:details', kwargs={'pk': self.object.question.pk})

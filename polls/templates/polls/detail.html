@@ -62,6 +62,8 @@
             <p>{{ comment.comment_body }}</p>
             {% if comment.author.id == user.id %}
             <a href="{% url 'polls:edit_comment' comment.id %}">Edit Comment</a>
+            <a href="{% url 'polls:delete_comment' comment.id %}">Delete Comment</a>
+
         {% endif %}
 
         {% endfor %}

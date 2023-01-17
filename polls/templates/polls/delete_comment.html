@@ -1,0 +1,20 @@
+{% extends 'polls/base.html' %}
+{% block title %}Delete Comment{% endblock %}
+{% block content %}
+    {% if user.id == comment.author.id %}
+        <p>Are you sure you want to delete a {{ comment.comment_body }}?</p>
+
+        <div>
+        <form method="POST" actiod="{% url 'polls:delete_comment' comment.id %}">
+            {% csrf_token %}
+            {{ form }}
+{#            <a href="{% url 'polls:details' question.id %}">Cancel</a>#}
+
+            <input type="submit" value="confirm">Delete</input>
+
+        </form>
+        </div>
+    {% else %}
+    Access Denied
+    {% endif %}
+{% endblock %}
