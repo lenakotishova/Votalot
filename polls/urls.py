@@ -20,4 +20,6 @@ urlpatterns = [
     path('<int:pk>/like/', views.like_view, name='like_poll'),
 
     path('<int:pk>/add_comment/', views.AddCommentView.as_view(), name='add_comment'),
+
+    path('<int:pk>/edit_comment/', views.EditCommentView.as_view(), name='edit_comment'),
 ]

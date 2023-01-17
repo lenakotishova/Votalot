@@ -60,10 +60,13 @@
             <hr>
             <strong>{{ comment.author }} - {{ comment.date_added }}</strong>
             <p>{{ comment.comment_body }}</p>
+            {% if comment.author.id == user.id %}
+            <a href="{% url 'polls:edit_comment' comment.id %}">Edit Comment</a>
+        {% endif %}
+
         {% endfor %}
         <hr>
-        <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>
+            <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>
     {% endif %}
-    {% include 'polls/add_comment.html' %}
     </div>
 {% endblock %}
