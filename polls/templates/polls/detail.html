@@ -34,9 +34,41 @@
                 <a class="btn btn-light action-button" role="button" href="{% url 'polls:edit' question.id %}">Edit</a>
                 <a class="btn btn-light action-button" role="button" href="{% url 'polls:delete' question.id %}">Delete</a>
             {% endif %}
-            <p>{{ question.total_votes }}</p>
+            <p>voted by {{ question.total_votes }} users</p>
 
         </div>
         </form>
-</div>
+    {% if user.is_authenticated %}
+        <form action="{% url 'polls:like_poll' question.id %}" method="post">
+            {% csrf_token %}
+            {% if is_liked %}
+                <button type="submit" name="question_id" value="{{ question.id }}">Unlike</button>
+            {% else %}
+                <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
+            {% endif %}
+        - {{ total_likes }} likes
+
+        </form>
+
+    {% endif %}
+
+    {% if not question.comments.all %}
+        <p>No comments yet...<a href="{% url 'polls:add_comment' question.id %}">You can be the first!</a></p>
+    {% else %}
+        <br>
+        {% for comment in question.comments.all %}
+            <hr>
+            <strong>{{ comment.author }} - {{ comment.date_added }}</strong>
+            <p>{{ comment.comment_body }}</p>
+            {% if comment.author.id == user.id %}
+            <a href="{% url 'polls:edit_comment' comment.id %}">Edit Comment</a>
+            <a href="{% url 'polls:delete_comment' comment.id %}">Delete Comment</a>
+
+        {% endif %}
+
+        {% endfor %}
+        <hr>
+            <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>
+    {% endif %}
+    </div>
 {% endblock %}

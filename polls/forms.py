@@ -1,13 +1,13 @@
 from datetime import datetime
 
 from django import forms
-from django.forms import ModelForm, TextInput, DateTimeInput, HiddenInput
+from django.forms import ModelForm, TextInput, DateTimeInput, HiddenInput, Textarea
 from django.forms.models import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
 from django.forms import BaseModelFormSet
 
 from . import models
-from .models import Question, Choice
+from .models import Question, Choice, Comment
 
 
 class QuestionForm(ModelForm):
@@ -36,6 +36,16 @@ class ChoiceForm(forms.ModelForm):
                 'class': 'form-control',
 
             })}
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment_body']
+
+        widgets = {
+            'comment_body': Textarea()
+        }
 
 
 PollFormSet = inlineformset_factory(Question,

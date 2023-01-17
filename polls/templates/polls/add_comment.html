@@ -1,0 +1,10 @@
+{% block title %}Add Comment{% endblock %}
+{% block content %}
+    <div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Add</button>
+    </form>
+    </div>
+{% endblock %}

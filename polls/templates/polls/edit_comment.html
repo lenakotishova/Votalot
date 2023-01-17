@@ -1,0 +1,14 @@
+{% block title %}Edit Comment{% endblock %}
+{% block content %}
+    {% if user.id == comment.author.id %}
+        <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Edit</button>
+        </form>
+        </div>
+    {% else %}
+    Access Denied
+    {% endif %}
+{% endblock %}
