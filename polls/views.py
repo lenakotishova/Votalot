@@ -43,6 +43,7 @@ class DetailView(generic.DetailView):
         return context
 
 
+@login_required(login_url='users:login')
 def like_view(request, pk):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
     is_liked = False
@@ -65,10 +66,10 @@ class ResultView(LoginRequiredMixin, generic.DetailView):
 
 
 class AddCommentView(LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
     model = Comment
     form_class = CommentForm
     template_name = 'polls/add_comment.html'
-    # fields = '__all__'
 
     def form_valid(self, form):
         form.instance.author_id = self.request.user.id

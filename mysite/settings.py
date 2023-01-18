@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2ud7t%9r84haq@)_b(86&c!5mtbq1hecn95(20+9+8hlk%a1id
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-LOGIN_REDIRECT_URL = '/polls/'
+# LOGIN_REDIRECT_URL = '/polls/'
 LOGOUT_REDIRECT_URL = '/polls/'
 
 LOGIN_URL = '/polls/'
