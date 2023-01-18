@@ -6,8 +6,10 @@
 <p> {{ form.errors.error }}</p>
 {% endif %}
 <form action="{% url 'users:login' %}" method="post">
-{{ form }}
     {% csrf_token %}
+
+{{ form }}
+    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
     <button type="submit">Submit</button>
 </form>
     <a href="{% url 'users:password_reset' %}">Forgot your password?</a>
