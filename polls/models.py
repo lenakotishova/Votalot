@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from django.urls import reverse
 from django.utils import timezone
+
 from django.contrib.auth.models import User, AbstractUser
 from django.conf import settings
 
@@ -18,7 +19,7 @@ class Question(models.Model):
     )
     question_text = models.CharField(max_length=100)
     pub_date = models.DateTimeField('date to publish', default=timezone.now)
-    created_date = models.DateTimeField('date created', auto_now_add=True)
+    created_date = models.DateTimeField('date created', default=timezone.now)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='question_post')
 
     def __str__(self):
