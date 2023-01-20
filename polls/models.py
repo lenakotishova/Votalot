@@ -41,6 +41,8 @@ class Question(models.Model):
     def total_likes(self):
         return self.likes.count()
 
+    # def you_liked(self):
+    #     return self.likes.count() - 1
     # @property
     # def total_likes(self):
     #     return self.likes.count()

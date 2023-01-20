@@ -44,7 +44,9 @@ class CommentForm(forms.ModelForm):
         fields = ['comment_body']
 
         widgets = {
-            'comment_body': Textarea()
+            'comment_body': Textarea(attrs={
+                'class': 'form-comment',
+            })
         }
 
 

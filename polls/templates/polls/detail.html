@@ -1,27 +1,35 @@
 {% extends "polls/base.html" %}
 
 {% block content %}
-    <div class="poll-form-container">
-        <form action="{% url 'polls:vote' question.id %}" method="post">
-            {% csrf_token %}
-            <fieldset class="poll-fieldset">
-                <legend>
-                    <h2>{{ question.question_text }}</h2>
-                </legend>
-                <p class='asked-by'>
-                    Asked by <b class="asked-by">{{ question.author }}</b> - <time>{{ question.created_date }}</time>
-                </p>
+    <div class="details-page-container">
+    <div class="details-container-for-poll">
+        <div class="left-side">
+            <form action="{% url 'polls:vote' question.id %}" method="post" class="poll-container">
+                {% csrf_token %}
+                <fieldset class="poll-fieldset">
+                    <legend>
+                        <h3>{{ question.question_text }}</h3>
+                        <p class='asked-by'>
+                        Asked by <b class="asked-by">{{ question.author }}</b> - <time>{{ question.created_date }}</time>
+                    </p>
 
-                {% if error_message %}
-                    <p><strong>{{ error_message }}</strong></p>
-                {% endif %}
-                {% for choice in question.choice_set.all %}
-                    <div class="radio">
-                        <input type="radio" class="radio__input" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                        <label for="choice{{ forloop.counter }}" class="radio__label">{{ choice.choice_text.title }}</label>
-                    </div>
-                {% endfor %}
-            </fieldset>
+                    </legend>
+
+                    {% if error_message %}
+                        <p class="error-message">
+                        <span><box-icon name='error-circle'> </box-icon></span><span> {{ error_message }}</span>
+
+                        </p>
+                    {% endif %}
+                    {% for choice in question.choice_set.all %}
+                        <div class="radio">
+                            <input type="radio" class="radio__input" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                            <label for="choice{{ forloop.counter }}" class="radio__label">{{ choice.choice_text.title }}</label>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+        </div>
+
         <div class="right-side">
 {#            {% if user.is_authenticated %}#}
                 <input class='action-button' type="submit" value="Submit your vote">
@@ -31,44 +39,82 @@
 {#            {% endif %}#}
 
             {% if user.id == question.author.id %}
-                <a class="btn btn-light action-button" role="button" href="{% url 'polls:edit' question.id %}">Edit</a>
+                <form action="{% url 'polls:edit' question.id %}" method="post">
+                {% csrf_token %}
+                    <button class="action-button" type="submit" value="Edit"><box-icon name='edit-alt'></box-icon>Edit</button>
+                </form>
+                <form action="{% url 'polls:delete' question.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="action-button" type="submit" value="Delete"><box-icon name='edit-alt'></box-icon>Delete</button>
+                </form>
+{#                <a class="action-button" role="button" href="{% url 'polls:edit' question.id %}">#}
+{#                    <box-icon name='edit-alt'></box-icon>Edit</a>#}
                 <a class="btn btn-light action-button" role="button" href="{% url 'polls:delete' question.id %}">Delete</a>
             {% endif %}
-            <p>voted by {{ question.total_votes }} users</p>
 
+        <div class="votes-field">
+            <p class='asked-by'>Votes</p>
+
+            {% if question.total_votes > 0 %}
+            <h4>{{ question.total_votes }}</h4>
+            {% else %}
+            <h4>0</h4>
+            {% endif %}
         </div>
+
         </form>
     {% if user.is_authenticated %}
-        <form action="{% url 'polls:like_poll' question.id %}" method="post">
+        <form class='likes' action="{% url 'polls:like_poll' question.id %}" method="post">
             {% csrf_token %}
             {% if is_liked %}
-                <button type="submit" name="question_id" value="{{ question.id }}">Unlike</button>
+                <button type="submit" name="question_id" value="{{ question.id }}">
+                    <box-icon name='dislike'></box-icon>
+                </button>
+                <span>You and {{ you_liked }} other liked this poll</span>
             {% else %}
-                <button type="submit" name="question_id" value="{{ question.id }}">Like</button>
+                <button type="submit" name="question_id" value="{{ question.id }}">
+                    <box-icon name='like'></box-icon>
+                </button>
+                    <span>{{ total_likes }} people liked this poll</span>
             {% endif %}
-        - {{ total_likes }} likes
-
         </form>
 
     {% endif %}
+        </div>
+    </div>
 
-    {% if not question.comments.all %}
-        <p>No comments yet...<a href="{% url 'polls:add_comment' question.id %}">You can be the first!</a></p>
-    {% else %}
-        <br>
-        {% for comment in question.comments.all %}
-            <hr>
-            <strong>{{ comment.author }} - {{ comment.date_added }}</strong>
-            <p>{{ comment.comment_body }}</p>
-            {% if comment.author.id == user.id %}
-            <a href="{% url 'polls:edit_comment' comment.id %}">Edit Comment</a>
-            <a href="{% url 'polls:delete_comment' comment.id %}">Delete Comment</a>
-
-        {% endif %}
+    <div class="comments-section">
+        {% if not question.comments.all %}
+            <h2>No comments yet...<a href="{% url 'polls:add_comment' question.id %}">You can be the first!</a></h2>
+        {% else %}
+            {% for comment in question.comments.all %}
+                <div class="comment-card">
+                    <p class="comment-title"><b>{{ comment.author }}</b> - {{ comment.date_added }}
+                        <span>
+                            {% if comment.author.id == user.id %}
+                            <a href="{% url 'polls:edit_comment' comment.id %}">
+                                <box-icon name='edit-alt' ></box-icon>
+                            </a>
+                            <a href="{% url 'polls:delete_comment' comment.id %}">
+                                <box-icon name='message-square-minus'></box-icon>
+                            </a>
+                            {% endif %}
+                        </span>
+                    </p>
+                    <p class="comment-body">
+                        <span>{{ comment.comment_body }}</span>
+                    </p>
+                </div>
 
         {% endfor %}
         <hr>
-            <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>
+            <form action="{% url 'polls:add_comment' question.id %}" method="post">
+            {% csrf_token %}
+                <input type="submit" value="Add">
+            </form>
+{#            <a href="{% url 'polls:add_comment' question.id %}">Add Comment</a>#}
     {% endif %}
     </div>
+    </div>
+
 {% endblock %}

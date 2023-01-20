@@ -13,7 +13,7 @@ from .forms import CommentForm, QuestionForm, ChoiceForm, PollFormSet
 
 
 class IndexView(generic.ListView, LoginRequiredMixin):
-    paginate_by = 2
+    paginate_by = 5
 
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
@@ -33,7 +33,9 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data()
         stuff = get_object_or_404(Question, id=(self.kwargs['pk']))
         total_likes = stuff.total_likes()
+        you_liked = stuff.total_likes() - 1
         context['total_likes'] = total_likes
+        context['you_liked'] = you_liked
         is_liked = False
         if stuff.likes.filter(id=self.request.user.id).exists():
             is_liked = True
@@ -124,7 +126,7 @@ def vote(request, question_id):
     except KeyError:
         return render(request, 'polls/detail.html',
                       {'question': question,
-                       'error_message': "You didn't select a choice"
+                       'error_message': "Please, select a choice"
                        })
     else:
         selected_choice.votes += 1
@@ -194,4 +196,4 @@ def delete_poll_view(request, pk):
     context = {
         'question': question,
     }
-    return render(request, 'polls/delete_poll.html', context)
+    return render(request, 'polls/delete_poll.html', {'question': question})

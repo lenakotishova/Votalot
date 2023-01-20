@@ -1,32 +1,36 @@
 {% extends "polls/base.html" %}
 
 {% block content %}
- <div class="section-title">
-        <h2>Latest Approved Polls:</h2>
-    </div>
-    <div class="poll-cards-container">
-        {% if latest_question_list %}
-            {% for q in latest_question_list %}
-                <div class="question-card">
-                    <div class="question-card-body">
-                        <a class="card-title" href="{% url 'polls:details' q.id %}">{{q.question_text}}</a>
-                        <a class="card-link" href="{% url 'polls:details' q.id %}" >View</a>
-                    </div>
-                </div>
-                <hr>
-            {% endfor %}
-        {% else %}
-            <p>No polls are available. </p>
-        {% endif %}
-    <nav class="list-pages">
-        <ul>
-            {% for p in paginator.page_range %}
-                <li class="page-num">
-                    <a href="?page={{ p }}">{{ p }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
-    </div>
+    <div class="index-container">
+        <div class="section-title">
+            <h2>Latest Approved Polls:</h2>
+        </div>
 
+        <div class="poll-cards-container">
+            {% if latest_question_list %}
+                {% for q in latest_question_list %}
+                    <div class="question-card">
+                        <div class="question-card-body">
+                            <a class="card-title" href="{% url 'polls:details' q.id %}">{{q.question_text}}</a>
+                             <form action="{% url 'polls:details' q.id %}">
+                                 <input type="submit" value="View">
+                             </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <i class="fa-sharp fa-solid fa-exclamation"></i><p>No polls are available. </p>
+            {% endif %}
+        </div>
+
+        <nav class="list-pages">
+            <ul>
+                {% for p in paginator.page_range %}
+                    <li class="page-num">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        </div>
 {% endblock %}
