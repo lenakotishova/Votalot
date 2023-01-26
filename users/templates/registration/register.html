@@ -1,13 +1,37 @@
 {% extends 'polls/base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Register</h1>
-<hr>
-<form action="{% url 'users:register' %}" method="post">
+<h4 class="page-title">Sign Up</h4>
+    <div class="register-form">
 
-    {{ form }}
-    {% csrf_token %}
-    <button type="submit">Submit</button>
+        <form action="{% url 'users:register' %}" method="post">
+            <div class="register-form-fields">
 
-</form>
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        <h4 class="field-name">{{ field.label_tag }}</h4>
+                        {{ field }}
+
+                        {{ field.errors }}
+
+                    </div>
+                {% endfor %}
+{#                <h4 class="field-name">Username:</h4>#}
+{#                {{ form.username }}#}
+{#                <h4 class="field-name">Email:</h4>#}
+{#                {{ form.email }}#}
+{#                <h4 class="field-name">Password:</h4>#}
+{#                {{ form.password1 }}#}
+{#                <h4 class="field-name">Confirm Password:</h4>#}
+{#                {{ form.password2 }}#}
+                {% csrf_token %}
+                    <input type="submit" value="Sign Up!">
+                    <p>Have an account? <a href="{% url 'users:login' %}">Login</a>.</p>
+{{ form.errors }}
+
+            </div>
+        </form>
+
+    </div>
 {% endblock %}

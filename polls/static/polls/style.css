@@ -5,6 +5,19 @@
     font-family: 'Tajawal', sans-serif;
 }
 
+/*common text style for page titles like Register, Login, etc*/
+.page-title{
+    color: #225e5c;
+    text-decoration: none;
+    font-family: 'Rajdhani', serif;
+    font-weight: 600;
+    font-size: 38px;
+
+    /*align-self: auto;*/
+    /*margin: 0 25vw;*/
+    width: 25vw;
+}
+
 /*HEADER*/
 header {
     height: 80px;
@@ -170,7 +183,7 @@ input[type=submit]{
     outline: none;
     font-size: 18px;
     font-family: 'Rajdhani', serif;
-    color: #17252A;;
+    color: #17252A;
 }
 
 .poll-cards-container .question-card .question-card-body form {
@@ -818,21 +831,22 @@ input .action-button {
 }
 
 .comments-section .comment-card {
-    border: #f7fdfd 2px solid;
+    border: #225e5c 2px solid;
 
-    margin: 5px;
-    width: 70vw;
+    margin: 3px auto;
+    width: 40vw;
     padding: 15px;
+
 }
 
 .comments-section .comment-card .comment-title {
     font-family: 'Tajawal', san-serif;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .comments-section .comment-card .comment-body {
     font-family: Rajdhani, Serif;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .add-comment-area {
@@ -858,4 +872,35 @@ input .action-button {
 
 .comment-area input {
     margin: 20px 0;
+}
+
+
+/*REGISTER*/
+.register-form{
+    margin: 10px 30px;
+    width: 100%;
+}
+
+.register-form .register-form-fields {
+    width: 50vw;
+    margin: auto;
+}
+
+.field-name {
+    color: #225e5c;
+    text-decoration: none;
+    font-family: 'Rajdhani', serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin-top: 10px;
+}
+
+.form-class {
+    width: 500px;
+    height: 45px;
+
+}
+
+.register-form-fields input[type=submit] {
+    margin: 15px 0;
 }
