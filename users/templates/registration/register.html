@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+    <div class="container">
 <h4 class="page-title">Sign Up</h4>
     <div class="register-form">
 
@@ -13,7 +14,7 @@
                         <h4 class="field-name">{{ field.label_tag }}</h4>
                         {{ field }}
 
-                        {{ field.errors }}
+                        <span class="field-error-message">{{ field.errors }}</span>
 
                     </div>
                 {% endfor %}
@@ -27,11 +28,11 @@
 {#                {{ form.password2 }}#}
                 {% csrf_token %}
                     <input type="submit" value="Sign Up!">
-                    <p>Have an account? <a href="{% url 'users:login' %}">Login</a>.</p>
-{{ form.errors }}
+                    <p class="black-text">Have an account? <a href="{% url 'users:login' %}" class="black-text">Login</a>.</p>
 
             </div>
         </form>
 
+    </div>
     </div>
 {% endblock %}

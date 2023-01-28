@@ -178,7 +178,6 @@ def edit_poll_view(request, pk):
             return redirect('polls:details', pk=question.pk)
         return render(request, 'polls/edit_poll.html', {'question_form': question_form, 'formset': formset})
     else:
-
         formset = PollFormSet(instance=question)
         return render(request, 'polls/edit_poll.html', {
             'formset': formset,

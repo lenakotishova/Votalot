@@ -5,6 +5,10 @@
     font-family: 'Tajawal', sans-serif;
 }
 
+.container{
+    width: 100%;
+    margin: 0 10px;
+}
 /*common text style for page titles like Register, Login, etc*/
 .page-title{
     color: #225e5c;
@@ -14,8 +18,23 @@
     font-size: 38px;
 
     /*align-self: auto;*/
-    /*margin: 0 25vw;*/
-    width: 25vw;
+    margin: 0 32vw;
+    width: 100%;
+    /*margin: auto;*/
+}
+
+.black-text{
+    color: #194947;
+
+    font-family: 'Rajdhani', serif;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.black-text a{
+    color: #287371;
+    text-decoration: underline;
+
 }
 
 /*HEADER*/
@@ -254,7 +273,66 @@ input[type=submit]{
     margin: 0;
     font-size: 20px;
 }
+.details-container-for-poll .right-side .button-field{
+    width: 200px;
+    text-align: center;
+}
 
+/*.details-container-for-poll .right-side .button-field .action-button{*/
+/*    border: #b0b2b2 1px solid;*/
+/*    margin: 2px auto;*/
+/*    width: 100%;*/
+/*    background-color: #edf1ef;*/
+
+
+.details-container-for-poll .right-side .button-field .button-6 {
+    width: 200px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 2px;
+     font-family: Rajdhani, Serif;
+      font-size: 21px;
+      font-weight: 300;
+    height: 50px;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+.button-6:hover,
+.button-6:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.button-6:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+.details-container-for-poll .right-side .button-field {
+    align-self: center;
+    text-align: center;
+    margin: auto;
+
+
+}
 .details-page-container .details-container-for-poll .right-side .votes-field h4 {
     font-family: 'Tajawal', san-serif;
     font-size: 40px;
@@ -903,4 +981,18 @@ input .action-button {
 
 .register-form-fields input[type=submit] {
     margin: 15px 0;
+}
+
+.field-error-message ul {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    color: #a90000;
+    font-family: Rajdhani, Serif;
+    font-weight: 400;
+    font-size: 18px;
+
+    list-style: -moz-element();
+    text-decoration: none;
 }

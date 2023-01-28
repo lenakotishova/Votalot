@@ -1,16 +1,22 @@
 {% extends 'polls/base.html' %}
 {% block content %}
-<h1> Login </h1>
-<hr>
-{% if form.errors %}
-<p> {{ form.errors.error }}</p>
-{% endif %}
+<h4 class="page-title"> Login </h4>
+
 <form action="{% url 'users:login' %}" method="post">
     {% csrf_token %}
-
-{{ form }}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            <h4 class="field-name">{{ field.label_tag }}</h4>
+            {{ field }}
+            <span class="field-error-message">{{ field.errors }}</span>
+        </div>
+    {% endfor %}
+{#    {{ form }}#}
     <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-    <button type="submit">Submit</button>
+    <input type="submit" value="Login">
+    {% if form.errors %}
+<p> {{ form.errors.error }}</p>
+{% endif %}
 </form>
     <a href="{% url 'users:password_reset' %}">Forgot your password?</a>
 {% endblock %}
