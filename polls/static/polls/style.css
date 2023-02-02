@@ -18,7 +18,7 @@
     font-size: 38px;
 
     /*align-self: auto;*/
-    margin: 0 32vw;
+    margin: 0 44vw;
     width: 100%;
     /*margin: auto;*/
 }
@@ -99,7 +99,7 @@ header .navbar .logo a {
     font-size: 18px;
 }
 
-input[type=submit]{
+input[type=submit], input[type=reset]{
     display: inline-block;
 	box-sizing: border-box;
     outline: none;
@@ -958,7 +958,9 @@ input .action-button {
     margin: 10px 30px;
     width: 100%;
 }
-
+.fieldWrapper{
+    margin-bottom: 20px;
+}
 .register-form .register-form-fields {
     width: 50vw;
     margin: auto;
@@ -973,17 +975,28 @@ input .action-button {
     margin-top: 10px;
 }
 
-.form-class {
+.form-class, input[type=password], input[type=text] {
     width: 500px;
     height: 45px;
 
+    font-size: 24px;
+    font-family: Rajdhani, Serif;
 }
 
 .register-form-fields input[type=submit] {
     margin: 15px 0;
 }
+.register-form-fields .field-error-message ul {
+    margin-block-start: 0;
+    padding-inline-start: 0;
 
-.field-error-message ul {
+
+}
+
+.register-form-fields .field-error-message ul li {
+    margin-block-start: 0;
+    padding-inline-start: 0px;
+
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -993,6 +1006,50 @@ input .action-button {
     font-weight: 400;
     font-size: 18px;
 
-    list-style: -moz-element();
+    list-style: none;
     text-decoration: none;
+}
+
+/*Create Poll Page*/
+
+.form-group{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.form-group .poll-card {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.form-group .poll-card label{
+    font-size: 22px;
+    text-transform: capitalize;
+
+    margin: 10px 0;
+
+}
+
+.delete-field{
+    display: flex;
+    flex-direction: row;
+}
+
+.choice-set{
+    width: 50%;
+}
+
+label{
+    width: 50%;
+    font-size: 40px;
+}
+
+.two-centered-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

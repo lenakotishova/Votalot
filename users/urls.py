@@ -3,12 +3,15 @@ from . import views
 from django.views import View
 from django.contrib.auth import views as auth_views
 
-from .views import Register
+from .views import Register, Login
 
 app_name = 'users'
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
+
+    path('login/', Login.as_view(), name='login'),
+
     path('register/', Register.as_view(), name='register'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(), name='reset_password'),

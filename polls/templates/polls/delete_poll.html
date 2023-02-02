@@ -2,12 +2,11 @@
 {% load static %}
 
 {% block content %}
-    <p>Are you sure you want to delete a {{ question.question_text }}?</p>
     <form method="POST" action="{% url 'polls:delete' question.id %}">
+        <p>Are you sure you want to delete a {{ question.question_text }}?</p>
         {% csrf_token %}
-
-    <a href="{% url 'polls:index' %}">Cancel</a>
-{#    <a href="{% url 'polls:delete' question.id %}"></a>#}
-    <input type="submit" name="Confirm">
+        <a href="{% url 'polls:index' %}">Cancel</a>
+        {#    <a href="{% url 'polls:delete' question.id %}"></a>#}
+        <input type="submit" name="Confirm">
     </form>
 {% endblock %}

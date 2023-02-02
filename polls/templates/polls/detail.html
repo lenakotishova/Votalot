@@ -91,7 +91,7 @@
 
     <div class="comments-section">
         {% if not question.comments.all %}
-            <h2>No comments yet...<a href="{% url 'polls:add_comment' question.id %}">You can be the first!</a></h2>
+            <h5>No comments yet...<a href="{% url 'polls:add_comment' question.id %}">You can be the first!</a></h5>
         {% else %}
             {% for comment in question.comments.all %}
                 <div class="comment-card">

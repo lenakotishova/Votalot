@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserCreationForm, UsernameField, AuthenticationForm
 from django import forms
 from django.forms import ModelForm, Textarea, CharField
@@ -33,9 +33,29 @@ class UserCreationForm(UserCreationForm):
 
 
 class AuthenticationForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={"autofocus": True, 'class': 'form-class'}))
-    password = forms.CharField(
-        label=_("Password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "current-password", 'class': 'form-class'}),
+    username = UsernameField(widget=forms.TextInput(attrs={"class": 'form-class'}))
+    password = forms.CharField(label=_("Password"), strip=False,
+                               widget=forms.PasswordInput(attrs={'class': 'form-control',}),
     )
+
+    error_messages = {
+        "invalid_login": _(
+            "Please enter a correct %(username)s and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        "inactive": _("This account is inactive."),
+    }
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("Sorry, that login was invalid. Please try again.")
+        return self.cleaned_data
+
+    def login(self, request):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        return user

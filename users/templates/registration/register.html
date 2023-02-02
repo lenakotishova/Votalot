@@ -18,14 +18,6 @@
 
                     </div>
                 {% endfor %}
-{#                <h4 class="field-name">Username:</h4>#}
-{#                {{ form.username }}#}
-{#                <h4 class="field-name">Email:</h4>#}
-{#                {{ form.email }}#}
-{#                <h4 class="field-name">Password:</h4>#}
-{#                {{ form.password1 }}#}
-{#                <h4 class="field-name">Confirm Password:</h4>#}
-{#                {{ form.password2 }}#}
                 {% csrf_token %}
                     <input type="submit" value="Sign Up!">
                     <p class="black-text">Have an account? <a href="{% url 'users:login' %}" class="black-text">Login</a>.</p>

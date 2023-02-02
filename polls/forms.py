@@ -16,9 +16,13 @@ class QuestionForm(ModelForm):
         fields = ['question_text']
         # exclude = ['author']
 
+        labels = {
+            'question_text': 'question:',
+        }
+
         widgets = {
             'question_text': TextInput(attrs={
-                'class': 'form-control',
+                'class': 'form-class',
                 'maxlength': 25,
             }),
         }

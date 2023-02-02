@@ -1,22 +1,34 @@
 {% extends 'polls/base.html' %}
+{% load static %}
 {% block content %}
 <h4 class="page-title"> Login </h4>
+    <div class="register-form">
+        <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            <div class="register-form-fields">
+                <span class="field-error-message">
+                    {% if form.non_field_errors %}
+                        {{ form.non_field_errors }}
+                    {% endif %}
+                </span>
 
-<form action="{% url 'users:login' %}" method="post">
-    {% csrf_token %}
-    {% for field in form %}
-        <div class="fieldWrapper">
-            <h4 class="field-name">{{ field.label_tag }}</h4>
-            {{ field }}
-            <span class="field-error-message">{{ field.errors }}</span>
-        </div>
-    {% endfor %}
-{#    {{ form }}#}
-    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-    <input type="submit" value="Login">
-    {% if form.errors %}
-<p> {{ form.errors.error }}</p>
-{% endif %}
-</form>
-    <a href="{% url 'users:password_reset' %}">Forgot your password?</a>
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        <h4 class="field-name">{{ field.label_tag }}</h4>
+                        {{ field }}
+
+
+                    </div>
+                {% endfor %}
+
+                <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                <input type="submit" value="Login">
+                {% if form.errors %}
+                    <p> {{ form.errors.error }}</p>
+                {% endif %}
+                <p><a class="black-text" href="{% url 'users:password_reset' %}">Forgot your password?</a></p>
+            </div>
+        </form>
+
+</div>
 {% endblock %}

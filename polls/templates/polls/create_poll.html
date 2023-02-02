@@ -2,54 +2,29 @@
 {% block title %}Create Poll {% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Create Post</h2>
-    <hr>
+    <h4 class="page-title"> Create Poll </h4>
     <div class="form-group">
         <form method="POST">
             {% csrf_token %}
-            <div class="form-group" enctype="multipart/form-data" id="poll-form">
-                <div class="card">
-
-                    {% for field in form %}
-                        <div class="form-group card-body">
-                        <label>{{field.label}}</label>
-                        {% for f in form %}
-                            {% if field.field.required %}
-                                <span style="color: red;" class="required">*</span>
-                                {{ f }}
-                                {{ choice_form }}
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                    </div>
-                </div>
+            {% for field in form %}
+                <div class="poll-card">
+                <label>{{field.label}}</label>
+                {% for f in form %}
+                    {% if field.field.required %}
+                        {{ f }}
+                        <div class="choice-set">
+                            {{ choice_form }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        <input type="reset" name="Reset">
+        <div class="two-centered-buttons">
+            <input type="submit" value="Create">
+            <input type="reset" name="Reset" value="Reset">
+        </div>
+{#            <input type="submit" value="Create">#}
+{#            <input type="reset" name="Reset" value="Reset">#}
         </form>
     </div>
-</div>
 {% endblock %}
-{#<form method="POST">#}
-{#      {% csrf_token %}#}
-{#      <div class="form-group" enctype="multipart/form-data" id="poll-form">#}
-{#      <div class="card">#}
-{#          {% for field in form %}#}
-{#              <div class="form-group card-body">#}
-{#                <label>{{field.label}}</label>#}
-{#                {% for f in form %}#}
-{#                    {% if field.field.required %}#}
-{#                        <span style="color: red;" class="required">*</span>#}
-{#                        {{ f }}#}
-{#                        {% for choice in choice_form %}#}
-{#                            <label for="choice{{ forloop.counter }}">{{ forloop.counter }}{{ choice.label }}</label>#}
-{#                            {{ choice }}#}
-{##}
-{#                            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>#}
-{#                        {% endfor %}#}
-{#                        {{ choice_form }}#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-
-{#          {% endfor %}#}
